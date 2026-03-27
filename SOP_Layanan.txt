@@ -1,0 +1,9 @@
+SOP LAYANAN SOLUSI POMPA AIR
+==============================
+1. Penerimaan Order: Catat Nama, Alamat, dan Keluhan.
+2. Penjadwalan: Konfirmasi jam kedatangan teknisi.
+3. Diagnosa: Cek arus listrik, kiprok, dan lilitan motor.
+4. Penawaran: Berikan estimasi harga sparepart & jasa.
+5. Pengerjaan: Lakukan perbaikan sesuai standar keamanan.
+6. QC: Tes pompa menyala dan air mengalir deras.
+7. Administrasi: Berikan nota dan garansi pengerjaan.
