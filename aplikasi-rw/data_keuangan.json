@@ -1,0 +1,14 @@
+{
+    "transaksi": [
+        {
+            "ket": "300000",
+            "jml": 200000,
+            "tipe": "Masuk"
+        },
+        {
+            "ket": "servis pompa",
+            "jml": 100000,
+            "tipe": "Masuk"
+        }
+    ]
+}
