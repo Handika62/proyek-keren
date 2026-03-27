@@ -1,0 +1,5 @@
+KERANGKA SISTEM QR CODE RW
+===========================
+- Generator: Python QR Library
+- Data: ID Warga + Timestamp
+- Verifikasi: Scan via HP Petugas Keamanan
