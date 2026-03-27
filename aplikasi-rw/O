@@ -1,0 +1,107 @@
+import json
+import os
+import getpass
+
+# Konfigurasi Admin Sederhana
+ADMIN_USER = "hasbih"
+ADMIN_PASS = "12345" # Silakan ganti sesuai keinginan
+
+def tampilkan_header(judul):
+    os.system('clear')
+    print("="*35)
+    print(f"   {judul}   ")
+    print("="*35)
+
+def login():
+    tampilkan_header("LOGIN ADMIN RW HASBIH")
+    user = input("Username: ")
+    # getpass akan menyembunyikan karakter saat mengetik password
+    password = getpass.getpass("Password: ")
+    
+    if user == ADMIN_USER and password == ADMIN_PASS:
+        return True
+    else:
+        print("\n[!] Login Gagal! Username atau Password salah.")
+        input("\nTekan Enter untuk kembali...")
+        return False
+
+def baca_data():
+    try:
+        with open('data_warga.json', 'r') as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {"warga": []}
+
+def simpan_data(data):
+    with open('data_warga.json', 'w') as f:
+        json.dump(data, f, indent=4)
+
+def menu_admin():
+    while True:
+        tampilkan_header("HALAMAN ADMIN - KELOLA WARGA")
+        print("1. Lihat Daftar Seluruh Warga")
+        print("2. Form Pendaftaran Warga Baru")
+        print("3. Logout & Kembali ke Menu Utama")
+        print("-" * 35)
+        
+        pilih = input("Pilih Menu Admin (1-3): ")
+        
+        if pilih == '1':
+            data = baca_data()
+            warga = data.get('warga', [])
+            print("\nDATA WARGA TERDAFTAR:")
+            if not warga:
+                print("Belum ada data.")
+            for i, w in enumerate(warga, 1):
+                print(f"{i}. {w['nama']} | NIK: {w.get('nik')} | KK: {w.get('no_kk')}")
+            input("\nTekan Enter untuk kembali...")
+
+        elif pilih == '2':
+            print("\n--- FORM PENDAFTARAN WARGA ---")
+            nama = input("Nama Lengkap  : ")
+            nik  = input("NIK (16 Digit): ")
+            kk   = input("No. KK        : ")
+            blok = input("Blok/No Rumah : ")
+            hp   = input("No. WhatsApp  : ")
+            
+            data = baca_data()
+            data['warga'].append({
+                "nama": nama,
+                "nik": nik,
+                "no_kk": kk,
+                "blok": blok,
+                "hp": hp
+            })
+            simpan_data(data)
+            print("\n[SUKSES] Data Warga Berhasil Disimpan!")
+            input("\nTekan Enter untuk kembali...")
+
+        elif pilih == '3':
+            break
+
+# --- Program Utama ---
+while True:
+    tampilkan_header("SISTEM DIGITAL RW HASBIH")
+    print("1. Akses Menu Admin")
+    print("2. Informasi Publik (QR Code)")
+    print("3. Keluar")
+    print("-" * 35)
+    
+    pilihan = input("Pilih menu (1-3): ")
+
+    if pilihan == '1':
+        if login():
+            menu_admin()
+    
+    elif pilihan == '2':
+        print("\n[INFO] Fitur Informasi Publik sedang dikembangkan.")
+        input("\nTekan Enter untuk kembali...")
+    
+    elif pilihan == '3':
+        print("\nSampai jumpa, Pak Handika!")
+        break
+
+
+
+
+
