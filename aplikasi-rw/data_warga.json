@@ -1,1 +1,18 @@
-{"warga": [{"nama": "Budi", "blok": "A1"}, {"nama": "Siti", "blok": "B2"}]}
+{
+    "warga": [
+        {
+            "nama": "Budi",
+            "blok": "A1"
+        },
+        {
+            "nama": "Siti",
+            "blok": "B2"
+        },
+        {
+            "nama": "handika",
+            "nik": "3201130812930007",
+            "no_kk": "3201130812930006",
+            "blok": "blok a1"
+        }
+    ]
+}
