@@ -11,11 +11,12 @@ def baca_data():
 
 def simpan_data(data):
     with open('data_warga.json', 'w') as f:
-        json.dump(data, f, indent=4
+        json.dump(data, f, indent=4)
+
 def menu_admin():
     while True:
         os.system('clear')
-	print("=== KELOLA WARGA RUKUN WARGA ===")
+        print("=== KELOLA WARGA RUKUN WARGA ===")
         print("1. Daftar Warga")
         print("2. Tambah Warga (Kirim WA)")
         print("3. Cari NIK/Nama")
@@ -40,8 +41,7 @@ def menu_admin():
             warga.append({"nama": n, "nik": ni, "hp": hp})
             simpan_data(data)
             
-            # Otomatis Buka WhatsApp
-            pesan = f"Halo Pak/Bu {n}, Anda telah terdaftar di Sistem RW Hasbih."
+            pesan = f"Halo Pak/Bu {n}, Anda telah terdaftar di Sistem RW."
             os.system(f"termux-open-url 'https://api.whatsapp.com/send?phone={hp}&text={pesan}'")
             print("\n[SUKSES] Data disimpan & WA dibuka!")
             input("Enter...")
