@@ -23,6 +23,31 @@ def simpan_data(data):
     with open('data_warga.json', 'w') as f:
         json.dump(data, f, indent=4)
 
+def menu_pompa():
+    while True:
+        tampilkan_header("UNIT BISNIS: SOLUSI POMPA AIR")
+        print("1. SOP Pengecekan Mesin Mati")
+        print("2. Daftar Harga Jasa Service")
+        print("3. Kembali ke Menu Utama")
+        print("-" * 40)
+        pilih = input("Pilih (1-3): ")
+        
+        if pilih == '1':
+            print("\n[SOP] PENGECEKAN MESIN MATI:")
+            print("1. Cek Arus Listrik (Steker & Kabel)")
+            print("2. Cek Kapasitor (Ganti jika lemah)")
+            print("3. Cek Otomatis/Pressure Switch")
+            print("4. Cek Gulungan/Spul (Gunakan Multitester)")
+            input("\nTekan Enter...")
+        elif pilih == '2':
+            print("\nDAFTAR ESTIMASI HARGA:")
+            print("- Service Ringan  : Rp 75.000")
+            print("- Ganti Kapasitor : Rp 125.000")
+            print("- Gulung Dinamo   : Rp 350.000+")
+            print("- Bongkar Pasang  : Rp 150.000")
+            input("\nTekan Enter...")
+        elif pilih == '3': break
+
 def menu_admin():
     while True:
         tampilkan_header("HALAMAN ADMIN - KELOLA WARGA")
@@ -31,66 +56,41 @@ def menu_admin():
         print("3. Cari Warga (Nama/NIK)")
         print("4. Tampilkan QR Code Warga")
         print("5. Logout & Kembali")
-        print("-" * 40)
-        
-        pilih = input("Pilih Menu (1-5): ")
-        data = baca_data()
-        warga = data.get('warga', [])
+        pilih = input("\nPilih (1-5): ")
+        data = baca_data(); warga = data.get('warga', [])
 
         if pilih == '1':
-            print("\nDATA WARGA TERDAFTAR:")
             for i, w in enumerate(warga, 1):
-                print(f"{i}. {w['nama']} | NIK: {w.get('nik', '-')}")
-            input("\nTekan Enter...")
-
+                print(f"{i}. {w['nama']} | NIK: {w.get('nik')}")
+            input("\nEnter...")
         elif pilih == '2':
-            print("\n--- FORM PENDAFTARAN ---")
-            nama = input("Nama Lengkap: ")
-            nik = input("NIK: ")
-            kk = input("No KK: ")
-            blok = input("Blok: ")
-            warga.append({"nama": nama, "nik": nik, "no_kk": kk, "blok": blok})
-            simpan_data(data)
-            print("\n[SUKSES] Data disimpan!"); input("Enter...")
-
+            nama = input("Nama: "); nik = input("NIK: "); kk = input("KK: ")
+            warga.append({"nama": nama, "nik": nik, "no_kk": kk})
+            simpan_data(data); input("[SUKSES] Simpan. Enter...")
         elif pilih == '3':
-            cari = input("\nMasukkan Nama atau NIK: ").lower()
-            hasil = [w for w in warga if cari in w.get('nama', '').lower() or cari in w.get('nik', '')]
-            print("\nHASIL PENCARIAN:")
-            for h in hasil:
-                print(f"- {h['nama']} | NIK: {h.get('nik')} | Blok: {h.get('blok')}")
-            if not hasil: print("Data tidak ditemukan.")
-            input("\nTekan Enter...")
-
+            cari = input("Nama/NIK: ").lower()
+            hasil = [w for w in warga if cari in w.get('nama','').lower() or cari in w.get('nik','')]
+            for h in hasil: print(f"- {h['nama']} (NIK: {h['nik']})")
+            input("\nEnter...")
         elif pilih == '4':
-            print("\n--- TAMPILKAN QR CODE ---")
-            nik_qr = input("Masukkan NIK warga: ")
-            warga_pilih = [w for w in warga if w.get('nik') == nik_qr]
-            
-            if warga_pilih:
-                w = warga_pilih[0]
-                print(f"\nMenyiapkan QR Code untuk: {w['nama']}...")
-                qr = qrcode.QRCode()
-                qr.add_data(f"RW-HASBIH\nNama: {w['nama']}\nNIK: {w['nik']}\nBlok: {w['blok']}")
-                # Menampilkan QR Code di terminal
-                qr.print_ascii() 
-            else:
-                print("\n[!] NIK tidak ditemukan.")
-            input("\nTekan Enter untuk kembali...")
-
+            nik_qr = input("NIK: ")
+            w_qr = [w for w in warga if w.get('nik') == nik_qr]
+            if w_qr:
+                qr = qrcode.QRCode(); qr.add_data(f"RW-HASBIH\n{w_qr[0]['nama']}")
+                qr.print_ascii()
+            else: print("Data tak ditemukan.")
+            input("\nEnter...")
         elif pilih == '5': break
 
-# --- Main Program ---
 while True:
-    tampilkan_header("SISTEM DIGITAL RW HASBIH")
-    print("1. Akses Menu Admin\n2. Keluar")
-    p = input("\nPilih (1-2): ")
+    tampilkan_header("SISTEM DIGITAL KELUARGA HASBIH")
+    print("1. Akses Menu Admin (RW)")
+    print("2. Unit Bisnis (Solusi Pompa Air)")
+    print("3. Keluar")
+    p = input("\nPilih (1-3): ")
     if p == '1':
-        tampilkan_header("LOGIN ADMIN")
-        u = input("Username: ")
-        pw = getpass.getpass("Password: ")
-        if u == ADMIN_USER and pw == ADMIN_PASS:
-            menu_admin()
-        else:
-            print("\n[!] Login Gagal!"); input("Enter...")
-    elif p == '2': break
+        u = input("Username: "); pw = getpass.getpass("Password: ")
+        if u == ADMIN_USER and pw == ADMIN_PASS: menu_admin()
+    elif p == '2':
+        menu_pompa()
+    elif p == '3': break
